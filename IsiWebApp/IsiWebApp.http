@@ -1,0 +1,6 @@
+@IsiWebApp_HostAddress = http://localhost:5110
+
+GET {{IsiWebApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,21 @@
+## Build results
+bin/
+/Projeto5010/bin
+obj/
+/Projeto5010/obj
+
+[Bb]uild/
+[Bb]uilds/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+## IDE config
+*.dbmdl
+*.VC.db
+*.vscode/
+
