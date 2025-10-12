@@ -6,16 +6,20 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const navigate = useNavigate(); // hook para navegação
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await fetch(
-          'https://api.themoviedb.org/3/movie/popular?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en&page=1'
-        );
-        const data = await response.json();
-        setMovies(data.results);
+        let allResults = [];
+        for (let page = 1; page <= 3; page++) {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/movie/popular?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en&page=${page}`
+          );
+          const data = await response.json();
+          allResults = allResults.concat(data.results);
+        }
+        setMovies(allResults.slice(0, 50));
         setLoading(false);
       } catch (error) {
         console.error('Erro ao carregar filmes:', error);
@@ -26,7 +30,6 @@ const Home = () => {
     fetchMovies();
   }, []);
 
-  // Função para tratar o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
     const query = search.trim();
@@ -37,10 +40,8 @@ const Home = () => {
 
   return (
     <div className="page">
-      <h1 className="page-title">Filmes Populares</h1>
-
-      {/* Formulário de pesquisa */}
-      <form onSubmit={handleSubmit}>
+      {/* Search Bar Centrally Above Grid */}
+      <form className="search-form" onSubmit={handleSubmit}>
         <input
           type="text"
           className="search-box"
@@ -48,8 +49,11 @@ const Home = () => {
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
-        <button type="submit">Buscar</button>
+        <button type="submit" className="search-btn">Buscar</button>
       </form>
+
+      {/* Title just above grid */}
+      <h1 className="page-title">Filmes Populares</h1>
 
       {loading ? (
         <div className="loading">
