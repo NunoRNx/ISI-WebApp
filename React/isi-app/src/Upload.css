@@ -1,0 +1,24 @@
+/* Navbar.css */
+nav {
+  display: flex;
+  justify-content: space-between; /* Espaço entre os links */
+  align-items: center;            /* Alinha verticalmente */
+  width: 300px;                   /* Largura fixa e centralizada */
+  margin: 40px auto;              /* Centraliza horizontalmente */
+  padding: 12px 20px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #1976d2;
+}
