@@ -1,3 +1,4 @@
+/* === PÁGINA GERAL === */
 .page {
   background-color: #181818;
   min-height: 100vh;
@@ -9,6 +10,7 @@
   align-items: center;
 }
 
+/* === BARRA DE PESQUISA === */
 .search-form {
   display: flex;
   justify-content: center;
@@ -29,8 +31,7 @@
   box-shadow: 0 1px 10px #0001, 0 0 0.5px #ccc;
   width: 300px;
   max-width: 80vw;
-  margin: 0;
-  height: 48px; /* fixar altura igual ao botão */
+  height: 48px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -38,20 +39,18 @@
 
 .search-btn {
   background: linear-gradient(90deg, #ff6600 85%, #cc5200 100%);
-  padding: 0 28px; /* vertical = 0, horizontal mantém largura do botão */
+  padding: 0 28px;
   border: none;
   border-radius: 0 30px 30px 0;
   color: #fff;
   font-weight: 700;
   font-size: 16px;
   cursor: pointer;
-  height: 48px; /* igual ao input */
-  margin-left: 0;
+  height: 48px;
   transition: background 0.2s;
   box-shadow: 0 1px 3px #0002;
   display: flex;
   align-items: center;
-  box-sizing: border-box;
 }
 
 .search-box:focus {
@@ -62,33 +61,39 @@
   background: linear-gradient(90deg, #cc5200 60%, #ff6600 100%);
 }
 
-/* TÍTULO CENTRALIZADO NA GRID */
+/* === TÍTULO DA PÁGINA === */
 .page-title {
   color: #ff6600;
   font-weight: 700;
   font-size: 32px;
   text-align: center;
-  margin: 24px 0 24px 0;
+  margin: 24px 0;
   width: 100%;
 }
 
-/* GRID DO CATÁLOGO */
+/* === GRID DO CATÁLOGO === */
 .movies-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 20px;
-  width: 95vw;
-  max-width: 80%;
-  margin: auto;
+  width: 90vw;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 0 40px;
 }
 
+/* === CARTÃO DO FILME === */
 .movie-card {
   background-color: #282828;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 16px #000000cc;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .movie-card:hover {
@@ -96,28 +101,106 @@
   box-shadow: 0 8px 24px #ff6600aa;
 }
 
+/* === POSTER === */
 .movie-poster img {
   width: 100%;
   height: auto;
   display: block;
-  border-bottom: 1px solid #383838;
 }
 
+/* === INFO DO FILME === */
+.movie-info {
+  padding: 10px 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* === TÍTULO === */
 .movie-title {
-  font-weight: 600;
-  font-size: 18px;
-  margin: 12px 16px 4px 16px;
-  color: #fff;
+  font-weight: 500;
+  font-size: 14px !important;
+  color: #fff !important;
+  margin: 6px 0 2px;
+  line-height: 1.3;
+  word-break: break-word;
+  text-decoration: none !important;
+  text-align: center;
+  max-width: 95%;
+}
+
+/* Remove sublinhado e cor azul dos links */
+.movie-card a,
+.movie-card a:visited,
+.movie-card a:active {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Hover só muda a cor do texto */
+.movie-card a:hover,
+.movie-title:hover {
+  color: #ff6600;
+  text-decoration: none !important;
+}
+
+/* === ANO + RATING LADO A LADO === */
+.movie-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .movie-year {
-  font-size: 14px;
+  font-size: 13px;
   color: #bbb;
-  margin: 0 16px 16px 16px;
+  margin: 0;
 }
 
+.movie-rating {
+  font-size: 13px;
+  color: #ffcc00;
+  margin: 0;
+}
+
+/* === ESTADO DE LOADING === */
 .loading {
   text-align: center;
   font-size: 18px;
   color: #ff6600;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 600px) {
+  .movie-title {
+    font-size: 12px !important;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+
+  .movies-grid {
+    gap: 14px;
+  }
+}
+
+/* === CORREÇÃO FINAL: remove qualquer underline dentro do Link === */
+.movie-card,
+.movie-card *,
+.movie-card *:hover,
+.movie-card *:focus,
+.movie-card *:visited {
+  text-decoration: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* Mantém o hover apenas na cor do título */
+.movie-title:hover {
+  color: #ff6600 !important;
+  text-decoration: none !important;
 }

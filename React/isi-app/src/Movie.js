@@ -174,11 +174,11 @@ const Movie = () => {
             </div>
             <div className="info-card">
               <h4>Orçamento</h4>
-              <div className="value">{movie.budget != 0 ? formatMoney(movie.budget):"N/A"}</div>
+              <div className="value">{movie.budget !== 0 ? formatMoney(movie.budget):"N/A"}</div>
             </div>
             <div className="info-card">
               <h4>Receita</h4>
-              <div className="value">{movie.revenue != 0 ? formatMoney(movie.revenue):"N/A"}</div>
+              <div className="value">{movie.revenue !== 0 ? formatMoney(movie.revenue):"N/A"}</div>
             </div>
           </section>
 

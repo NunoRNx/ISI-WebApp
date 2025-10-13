@@ -62,18 +62,21 @@ const Home = () => {
       ) : (
         <div className="movies-grid">
           {movies.map((movie) => (
-            <div key={movie.id} className="movie-card">
-              <Link to={`/movie/${movie.id}`} className="movie-card">
-                <div className="movie-poster">
-                  <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-                  <div className="movie-overlay"></div>
+           <Link key={movie.id} to={`/movie/${movie.id}`} className="movie-card">
+              <div className="movie-poster">
+                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+                <div className="movie-overlay"></div>
+              </div>
+              <div className="movie-info">
+                <p className="movie-title">{movie.title}</p>
+                <div className="movie-meta">
+                  <p className="movie-year">
+                    {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
+                  </p>
+                  <p className="movie-rating">⭐ {movie.vote_average.toFixed(1)}</p>
                 </div>
-                <h3 className="movie-title">{movie.title}</h3>
-                <p className="movie-year">
-                  {movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}
-                </p>
-              </Link>
-            </div>
+              </div>
+            </Link>
           ))}
         </div>
       )}
