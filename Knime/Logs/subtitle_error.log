@@ -1,0 +1,4 @@
+1534,"This is an exemple 3","00:04:59","00:05:01","00:05","Fail, End > length"
+1534,"This is an exemple 4","00:05:01","00:04:01","00:05","Fail, , Start > length"
+1534,"This is an exemple 5","00:04:01","00:03:01","00:05","Fail, End < Start"
+1534,,"00:03:01","00:04:01","00:05","Missing Subtitle"

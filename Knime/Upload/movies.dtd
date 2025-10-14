@@ -1,0 +1,11 @@
+<!ELEMENT movie (Id, title, year, language, movieLength, subtitles)>
+<!ELEMENT Id (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT language (#PCDATA)>
+<!ELEMENT movieLength (#PCDATA)>
+<!ELEMENT subtitles (subtitle*)>
+<!ELEMENT subtitle (#PCDATA)>
+<!ATTLIST subtitle
+          start CDATA #REQUIRED
+          end CDATA #REQUIRED>
