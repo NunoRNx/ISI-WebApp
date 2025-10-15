@@ -24,7 +24,7 @@ public partial class IsiContext : DbContext
     {
         modelBuilder.Entity<Movies>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__movies__3213E83F60D2817B");
+            entity.HasKey(e => e.Id).HasName("PK__movies__3213E83F21E81B46");
 
             entity.ToTable("movies");
 
@@ -47,12 +47,13 @@ public partial class IsiContext : DbContext
 
         modelBuilder.Entity<Subtitles>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("subtitles");
+            entity.HasKey(e => e.Id).HasName("PK__subtitle__3213E83F93893364");
+
+            entity.ToTable("subtitles");
 
             entity.HasIndex(e => new { e.MovieId, e.StartTime, e.EndTime }, "uq_subtitle").IsUnique();
 
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.EndTime)
                 .HasMaxLength(8)
                 .IsUnicode(false)
@@ -66,7 +67,7 @@ public partial class IsiContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("text");
 
-            entity.HasOne(d => d.Movie).WithMany()
+            entity.HasOne(d => d.Movie).WithMany(p => p.Subtitles)
                 .HasForeignKey(d => d.MovieId)
                 .HasConstraintName("fk_movie");
         });

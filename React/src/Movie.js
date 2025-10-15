@@ -191,7 +191,7 @@ const Movie = () => {
       form.append('movieId', id);
       form.append('file', file, file.name);
 
-      const res = await fetch(`/knime/subtitles/upload`, { method: 'POST', body: form });
+      const res = await fetch(`http://localhost:5110/knime/Upload/UploadXml`, { method: 'POST', body: form });
 
       if (res.ok) {
         setSubsStatus('Upload recebido. KNIME vai validar e gravar.');
