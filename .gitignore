@@ -18,3 +18,4 @@ obj/
 *.dbmdl
 *.VC.db
 *.vscode/
+/Knime/.metadata

@@ -1,0 +1,20 @@
+{
+    "date-input-28": {
+        "label": "Label",
+        "type": "string",
+        "format": "ZonedDateTime",
+        "default": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+    },
+    "date-input-18": {
+        "label": "Label",
+        "type": "string",
+        "format": "ZonedDateTime",
+        "default": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+    },
+    "date-input-45": {
+        "label": "Label",
+        "type": "string",
+        "format": "ZonedDateTime",
+        "default": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+    }
+}

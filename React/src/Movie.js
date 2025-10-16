@@ -22,17 +22,13 @@ const Movie = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Estado para XML (apenas leitura)
+  // XML preview state read-only
   const [xmlPreview, setXmlPreview] = useState('');
   const [loadingSubs, setLoadingSubs] = useState(false);
   const [subsStatus, setSubsStatus] = useState('');
   const fileInputRef = useRef(null);
 
-  const year = useMemo(() => {
-    if (!movie?.release_date) return 'N/A';
-    return new Date(movie.release_date).getFullYear();
-  }, [movie]);
-
+  const year = useMemo(() => (!movie?.release_date ? 'N/A' : new Date(movie.release_date).getFullYear()), [movie]);
   const runtimeText = useMemo(() => {
     const min = movie?.runtime || 0;
     if (!min) return '—';
@@ -42,7 +38,7 @@ const Movie = () => {
   }, [movie]);
 
   const trailerKey = useMemo(() => {
-    const yt = videos.find(v => v.site === 'YouTube' && v.type === 'Trailer');
+    const yt = videos.find((v) => v.site === 'YouTube' && v.type === 'Trailer');
     return yt?.key || null;
   }, [videos]);
 
@@ -52,11 +48,18 @@ const Movie = () => {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-  // Constrói XML de exemplo no formato solicitado
+  const toHHMMSS = (totalMin) => {
+    const m = Math.max(0, Number(totalMin) || 0);
+    const h = Math.floor(m / 60);
+    const mm = m % 60;
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${pad(h)}:${pad(mm)}:00`;
+  };
+
   const buildExampleXML = (m) => {
     const t = xmlEscape(m?.title || 'Uncharted');
-    const y = (m?.release_date ? new Date(m.release_date).getFullYear() : 2022);
-    const lang = (m?.original_language || 'en');
+    const y = m?.release_date ? new Date(m.release_date).getFullYear() : 2022;
+    const lang = m?.original_language || 'en';
     const mid = xmlEscape(id || '335787');
     return `<?xml version="1.0" encoding="UTF-8"?>
     <movie>
@@ -66,38 +69,29 @@ const Movie = () => {
       <language>${xmlEscape(lang)}</language>
       <movieLength>${toHHMMSS(m?.runtime || 0)}</movieLength>
       <subtitles>
-        <subtitle start="HH:MM:SS" end="HH:MM:SS">This is an exemple</subtitle>
-        <subtitle start="HH:MM:SS" end="HH:MM:SS">This is an exemple 2</subtitle>
+        <subtitle start="HH:MM:SS" end="HH:MM:SS">This is an example</subtitle>
+        <subtitle start="HH:MM:SS" end="HH:MM:SS">This is an example 2</subtitle>
       </subtitles>
     </movie>`;
   };
 
-  const toHHMMSS = (totalMin) => {
-  const m = Math.max(0, Number(totalMin) || 0);
-  const h = Math.floor(m / 60);
-  const mm = m % 60;
-  const pad = (n) => String(n).padStart(2, '0');
-  return `${pad(h)}:${pad(mm)}:00`;
-  };
-  
-  // Validação mínima de bem-formado (opcional)
   const isWellFormedXML = (text) => {
     try {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'application/xml');
-      const err = doc.getElementsByTagName('parsererror');
-      return err.length === 0;
+      return !doc.getElementsByTagName('parsererror').length;
     } catch {
       return false;
     }
   };
 
-  // Carrega o XML existente (para pré-visualização e download)
   const fetchCurrentXML = async () => {
     setLoadingSubs(true);
     setSubsStatus('');
     try {
-      const res = await fetch(`/knime/subtitles?movieId=${id}`, { headers: { Accept: 'application/xml' } });
+      const res = await fetch(`http://localhost:5110/api/Database/export-xml/${id}`, {
+        headers: { Accept: 'application/xml' },
+      });
       if (res.status === 204) {
         const ex = buildExampleXML(movie);
         setXmlPreview(ex);
@@ -116,7 +110,7 @@ const Movie = () => {
         const msg = await res.text();
         const ex = buildExampleXML(movie);
         setXmlPreview(ex);
-        setSubsStatus(`Falha ao obter XML (${res.status}). A mostrar exemplo. ${msg || ''}`.trim());
+        setSubsStatus(`Falha ao obter XML (${res.status}). ${msg || ''}`.trim());
       }
     } catch {
       const ex = buildExampleXML(movie);
@@ -127,39 +121,27 @@ const Movie = () => {
     }
   };
 
-  // Download helpers
   const downloadTextAsFile = (text, filename) => {
     const blob = new Blob([text], { type: 'application/xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     URL.revokeObjectURL(url);
   };
 
-  const handleDownloadExisting = async () => {
-    setSubsStatus('');
-    setLoadingSubs(true);
-    try {
-      const res = await fetch(`/knime/subtitles?movieId=${id}`, { headers: { Accept: 'application/xml' } });
-      if (res.status === 204) {
-        setSubsStatus('Sem XML na BD. Usa "Download Exemplo".');
-      } else if (res.ok) {
-        const xml = await res.text();
-        if (!xml || !xml.trim()) {
-          setSubsStatus('Resposta vazia. Usa "Download Exemplo".');
-        } else {
-          downloadTextAsFile(xml, `movie-${id}.xml`);
-          setSubsStatus('Download concluído.');
-        }
-      } else {
-        const msg = await res.text();
-        setSubsStatus(`Falha ao obter XML: ${res.status} ${msg || ''}`.trim());
-      }
-    } catch {
-      setSubsStatus('Erro de rede ao obter XML.');
-    } finally {
-      setLoadingSubs(false);
+  const handleDownloadExisting = () => {
+    if (!xmlPreview || !xmlPreview.trim()) {
+      setSubsStatus('Sem conteúdo XML para descarregar.');
+      return;
     }
+    const isExample = xmlPreview.includes('This is an example');
+    const filename = isExample ? `movie-${id}-example.xml` : `movie-${id}.xml`;
+    downloadTextAsFile(xmlPreview, filename);
+    setSubsStatus('Download concluído.');
   };
 
   const handleDownloadExample = () => {
@@ -172,13 +154,11 @@ const Movie = () => {
     }
   };
 
-  // Upload de ficheiro (multipart: movieId + file)
   const handleUploadFile = async (file) => {
     if (!file) return;
     setSubsStatus('A enviar ficheiro para KNIME...');
     setLoadingSubs(true);
     try {
-      // Validação local opcional: bem-formado
       const text = await file.text().catch(() => null);
       if (text && !isWellFormedXML(text)) {
         setSubsStatus('XML malformado. Corrigir e tentar novamente.');
@@ -186,7 +166,6 @@ const Movie = () => {
         if (fileInputRef.current) fileInputRef.current.value = '';
         return;
       }
-
       const form = new FormData();
       form.append('movieId', id);
       form.append('file', file, file.name);
@@ -195,7 +174,6 @@ const Movie = () => {
 
       if (res.ok) {
         setSubsStatus('Upload recebido. KNIME vai validar e gravar.');
-        // Recarregar a pré-visualização após upload bem-sucedido
         await fetchCurrentXML();
       } else {
         const msg = await res.text();
@@ -220,11 +198,9 @@ const Movie = () => {
     handleUploadFile(file);
   };
 
-  // Carrega dados TMDB
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
-
     const fetchAll = async () => {
       try {
         const [mRes, vRes, rRes] = await Promise.all([
@@ -246,12 +222,10 @@ const Movie = () => {
         if (isMounted) setLoading(false);
       }
     };
-
     fetchAll();
     return () => { isMounted = false; };
   }, [id]);
 
-  // Carrega XML atual/exemplo quando o filme estiver disponível
   useEffect(() => {
     if (!id) return;
     if (movie !== null) fetchCurrentXML();
@@ -265,7 +239,6 @@ const Movie = () => {
       </div>
     );
   }
-
   if (!movie) {
     return (
       <div className="movie-page">
@@ -280,9 +253,7 @@ const Movie = () => {
   return (
     <div className="movie-page">
       {bg && <div className="movie-backdrop" style={{ backgroundImage: `url(${bg})` }} />}
-
       <div className="movie-container">
-        {/* Coluna esquerda (poster sticky) */}
         <aside className="movie-left">
           <div className="poster-wrap">
             {posterSrc ? (
@@ -293,11 +264,11 @@ const Movie = () => {
           </div>
         </aside>
 
-        {/* Coluna direita (detalhes) */}
         <main className="movie-right">
-          {/* Barra de ações */}
           <div className="movie-actions">
-            <button className="btn-secondary" onClick={() => navigate(-1)}>← Voltar</button>
+            <button className="btn-secondary" onClick={() => navigate(-1)}>
+              ← Voltar
+            </button>
             {trailerKey && (
               <a
                 className="btn-primary"
@@ -310,7 +281,6 @@ const Movie = () => {
             )}
           </div>
 
-          {/* Cabeçalho */}
           <header className="movie-header-card">
             <h1 className="movie-title">{movie.title}</h1>
             <div className="movie-meta">
@@ -327,26 +297,28 @@ const Movie = () => {
             </div>
             {!!movie.genres?.length && (
               <div className="movie-genres">
-                {movie.genres.map(g => (
-                  <span key={g.id} className="genre-chip">{g.name}</span>
+                {movie.genres.map((g) => (
+                  <span key={g.id} className="genre-chip">
+                    {g.name}
+                  </span>
                 ))}
               </div>
             )}
           </header>
 
-          {/* Sinopse */}
           <section className="movie-section">
             <h3 className="section-title">Sinopse</h3>
             <p className="movie-overview">{movie.overview || 'Sem descrição disponível.'}</p>
           </section>
 
-          {/* Info técnica */}
           <section className="movie-grid">
             <div className="info-card">
               <h4>Produção</h4>
               <div className="pill-list">
-                {(movie.production_companies || []).slice(0, 8).map(pc => (
-                  <span key={pc.id} className="pill">{pc.name}</span>
+                {(movie.production_companies || []).slice(0, 8).map((pc) => (
+                  <span key={pc.id} className="pill">
+                    {pc.name}
+                  </span>
                 ))}
                 {(!movie.production_companies || movie.production_companies.length === 0) && <span className="muted">—</span>}
               </div>
@@ -354,28 +326,29 @@ const Movie = () => {
             <div className="info-card">
               <h4>Países</h4>
               <div className="pill-list">
-                {(movie.production_countries || []).map(pc => (
-                  <span key={pc.iso_3166_1} className="pill">{pc.name}</span>
+                {(movie.production_countries || []).map((pc) => (
+                  <span key={pc.iso_3166_1} className="pill">
+                    {pc.name}
+                  </span>
                 ))}
                 {(!movie.production_countries || movie.production_countries.length === 0) && <span className="muted">—</span>}
               </div>
             </div>
             <div className="info-card">
               <h4>Orçamento</h4>
-              <div className="value">{movie.budget !== 0 ? formatMoney(movie.budget):"N/A"}</div>
+              <div className="value">{movie.budget !== 0 ? formatMoney(movie.budget) : 'N/A'}</div>
             </div>
             <div className="info-card">
               <h4>Receita</h4>
-              <div className="value">{movie.revenue !== 0 ? formatMoney(movie.revenue):"N/A"}</div>
+              <div className="value">{movie.revenue !== 0 ? formatMoney(movie.revenue) : 'N/A'}</div>
             </div>
           </section>
 
-          {/* Recomendações */}
           {!!recommendations?.length && (
             <section className="movie-section">
               <h3 className="section-title">Recomendações</h3>
               <div className="recs-row">
-                {recommendations.slice(0, 12).map(r => {
+                {recommendations.slice(0, 12).map((r) => {
                   const ps = r.poster_path ? `https://image.tmdb.org/t/p/w185${r.poster_path}` : '';
                   return (
                     <div
@@ -384,16 +357,11 @@ const Movie = () => {
                       onClick={() => navigate(`/movie/${r.id}`)}
                       title={r.title}
                     >
-                      {ps ? (
-                        <img src={ps} alt={r.title} />
-                      ) : (
-                        <div className="rec-placeholder">Sem poster</div>
-                      )}
+                      {ps ? <img src={ps} alt={r.title} /> : <div className="rec-placeholder">Sem poster</div>}
                       <div className="rec-title">{r.title}</div>
                       <div className="rec-meta">
                         {(r.release_date ? new Date(r.release_date).getFullYear() : 'N/A')}
-                        <span className="dot">•</span>
-                        ★ {r.vote_average?.toFixed?.(1) ?? r.vote_average ?? 'N/A'}
+                        <span className="dot">•</span> ★ {r.vote_average?.toFixed?.(1) ?? r.vote_average ?? 'N/A'}
                       </div>
                     </div>
                   );
@@ -402,12 +370,10 @@ const Movie = () => {
             </section>
           )}
 
-          {/* Secção: Legendas (preview + download/upload) */}
           <section className="subs-editor" style={{ marginTop: 24 }}>
             <h3 className="section-title">Legendas (XML)</h3>
             <p className="subs-status">{subsStatus || (loadingSubs ? 'A processar...' : '')}</p>
 
-            {/* Preview somente leitura */}
             <pre
               className="code-box"
               style={{

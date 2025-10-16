@@ -1,0 +1,74 @@
+{
+    "date-input-28": {
+        "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeRepresentation",
+        "label": "Label",
+        "description": "Enter Description",
+        "required": true,
+        "defaultValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "currentValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "shownowbutton": true,
+        "granularity": "show_minutes",
+        "usemin": false,
+        "usemax": false,
+        "useminexectime": false,
+        "usemaxexectime": false,
+        "usedefaultexectime": true,
+        "min": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "max": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "type": "LDT"
+    },
+    "date-input-18": {
+        "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeRepresentation",
+        "label": "Label",
+        "description": "Enter Description",
+        "required": true,
+        "defaultValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "currentValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "shownowbutton": true,
+        "granularity": "show_minutes",
+        "usemin": false,
+        "usemax": false,
+        "useminexectime": false,
+        "usemaxexectime": false,
+        "usedefaultexectime": true,
+        "min": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "max": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "type": "LDT"
+    },
+    "date-input-45": {
+        "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeRepresentation",
+        "label": "Label",
+        "description": "Enter Description",
+        "required": true,
+        "defaultValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "currentValue": {
+            "@class": "org.knime.js.base.node.configuration.input.date.DateDialogNodeValue",
+            "datestring": "2025-10-16T19:01:32+01:00[Europe/Lisbon]"
+        },
+        "shownowbutton": true,
+        "granularity": "show_minutes",
+        "usemin": false,
+        "usemax": false,
+        "useminexectime": false,
+        "usemaxexectime": false,
+        "usedefaultexectime": true,
+        "min": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "max": "2025-10-16T19:01:32+01:00[Europe/Lisbon]",
+        "type": "LDT"
+    }
+}

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <movie>
   <Id>1534</Id>
   <title>Filme Teste</title>
@@ -6,12 +5,11 @@
   <language>PT</language>
   <movieLength>00:05:00</movieLength>
   <subtitles>
-    <subtitle start="00:00:01" end="00:02:00">This is an exemple novo</subtitle>
+    <subtitle start="00:00:01" end="00:02:00">This is an exemple</subtitle>
     <subtitle start="00:02:01" end="00:04:59">This is an exemple 2</subtitle>
     <subtitle start="00:04:59" end="00:05:01">This is an exemple 3</subtitle>
     <subtitle start="00:05:01" end="00:04:01">This is an exemple 4</subtitle>
     <subtitle start="00:04:01" end="00:03:01">This is an exemple 5</subtitle>
-    <subtitle start="00:04:01" end="00:04:59">teste</subtitle>
     <subtitle start="00:03:01" end="00:04:01">   </subtitle>
   </subtitles>
 </movie>

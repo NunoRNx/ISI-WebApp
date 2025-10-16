@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+    <entry key="node_file" type="xstring" value="settings.xml"/>
+    <config key="flow_stack"/>
+    <config key="internal_node_subsettings">
+        <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
+    </config>
+    <config key="model">
+        <entry key="scriptImports" type="xstring" value="// Your custom imports:%%00010import java.io.StringReader;%%00010import java.io.StringWriter;%%00010import javax.xml.parsers.SAXParser;%%00010import javax.xml.parsers.SAXParserFactory;%%00010import javax.xml.transform.OutputKeys;%%00010import javax.xml.transform.Transformer;%%00010import javax.xml.transform.TransformerFactory;%%00010import javax.xml.transform.dom.DOMSource;%%00010import javax.xml.transform.stream.StreamResult;%%00010import org.xml.sax.InputSource;%%00010import org.xml.sax.SAXParseException;%%00010import org.xml.sax.helpers.DefaultHandler;%%00010%%00010%%00010"/>
+        <entry key="scriptFields" type="xstring" value="// Your custom variables:%%00010Document doc = c_XML;"/>
+        <entry key="scriptBody" type="xstring" value="// Enter your code here:%%00010try {%%00010    // Converter Document para String XML%%00010    StringWriter writer = new StringWriter();%%00010    Transformer transformer = TransformerFactory.newInstance().newTransformer();%%00010    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, &quot;no&quot;);%%00010    transformer.setOutputProperty(OutputKeys.METHOD, &quot;xml&quot;);%%00010    transformer.setOutputProperty(OutputKeys.ENCODING, &quot;UTF-8&quot;);%%00010    transformer.transform(new DOMSource(c_XML), new StreamResult(writer));%%00010    String xmlContent = writer.toString();%%00010%%00010    // Injeta DOCTYPE com DTD se faltar na string XML%%00010    if (!xmlContent.contains(&quot;&lt;!DOCTYPE&quot;)) {%%00010        xmlContent = xmlContent.replaceFirst(&quot;(&lt;\\?xml[^&gt;]*\\?&gt;)?&quot;,%%00010            &quot;$1\n&lt;!DOCTYPE movie SYSTEM \&quot;&quot; + v_LOCALPath.replace(&quot;\\&quot;, &quot;/&quot;) + &quot;\&quot;&gt;&quot;);%%00010    }%%00010%%00010    // Configura parser SAX com validação ativada%%00010    SAXParserFactory factory = SAXParserFactory.newInstance();%%00010    factory.setValidating(true);%%00010    factory.setNamespaceAware(false);%%00010%%00010    SAXParser parser = factory.newSAXParser();%%00010%%00010    // Parse e validação DTD%%00010    parser.parse(new InputSource(new StringReader(xmlContent)), new DefaultHandler() {%%00010        @Override%%00010        public void error(SAXParseException e) throws SAXParseException {%%00010            throw e;%%00010        }%%00010    });%%00010    %%00010    // Se chegou aqui, é válido%%00010    out_ValidationResult = &quot;XML válido segundo o DTD.&quot;;%%00010%%00010} catch (SAXParseException e) {%%00010    out_ValidationResult = &quot;Erro de validação DTD: &quot; + e.getMessage();%%00010} catch (Exception e) {%%00010    out_ValidationResult = &quot;Erro ao validar XML: &quot; + e.getMessage();%%00010}%%00010"/>
+        <config key="jarFiles">
+            <entry key="array-size" type="xint" value="0"/>
+        </config>
+        <config key="outCols">
+            <entry key="array-size" type="xint" value="1"/>
+            <config key="0">
+                <entry key="Name" type="xstring" value="ValidationResult"/>
+                <entry key="JavaName" type="xstring" value="out_ValidationResult"/>
+                <entry key="JavaType" type="xstring" value="java.lang.String"/>
+                <config key="Type">
+                    <entry key="cell_class" type="xstring" value="org.knime.core.data.def.StringCell"/>
+                    <entry key="is_null" type="xboolean" value="false"/>
+                </config>
+                <entry key="ConverterFactory" type="xstring" value="org.knime.core.data.def.StringCell$StringCellFactory.createCell(class java.lang.String)"/>
+                <entry key="replaceExisting" type="xboolean" value="false"/>
+            </config>
+        </config>
+        <config key="outVars">
+            <entry key="array-size" type="xint" value="0"/>
+        </config>
+        <config key="inCols">
+            <entry key="array-size" type="xint" value="1"/>
+            <config key="0">
+                <entry key="Name" type="xstring" value="XML"/>
+                <entry key="JavaName" type="xstring" value="c_XML"/>
+                <entry key="JavaType" type="xstring" value="org.w3c.dom.Document"/>
+                <config key="Type">
+                    <entry key="cell_class" type="xstring" value="org.knime.core.data.xml.XMLCell"/>
+                    <entry key="is_null" type="xboolean" value="false"/>
+                </config>
+                <entry key="ConverterFactory" type="xstring" value="org.knime.core.data.convert.java.SimpleDataCellToJavaConverterFactory(XMLValue,interface org.w3c.dom.Document,Document (XML))"/>
+            </config>
+        </config>
+        <config key="inVars">
+            <entry key="array-size" type="xint" value="2"/>
+            <config key="0">
+                <entry key="Name" type="xstring" value="knime.workspace"/>
+                <entry key="JavaName" type="xstring" value="v_knimeworkspace"/>
+                <entry key="JavaType" type="xstring" value="java.lang.String"/>
+                <entry key="Type" type="xstring" value="STRING"/>
+            </config>
+            <config key="1">
+                <entry key="Name" type="xstring" value="LOCALPath"/>
+                <entry key="JavaName" type="xstring" value="v_LOCALPath"/>
+                <entry key="JavaType" type="xstring" value="java.lang.String"/>
+                <entry key="Type" type="xstring" value="STRING"/>
+            </config>
+        </config>
+        <entry key="version" type="xstring" value="version 1.x"/>
+        <entry key="templateUUID" type="xstring" isnull="true" value=""/>
+        <entry key="runOnExecute" type="xboolean" value="false"/>
+        <config key="bundles">
+            <entry key="array-size" type="xint" value="0"/>
+        </config>
+    </config>
+    <entry key="customDescription" type="xstring" isnull="true" value=""/>
+    <entry key="state" type="xstring" value="IDLE"/>
+    <entry key="factory" type="xstring" value="org.knime.base.node.jsnippet.JavaSnippetNodeFactory"/>
+    <entry key="node-name" type="xstring" value="Java Snippet"/>
+    <entry key="node-bundle-name" type="xstring" value="KNIME Java Snippet Nodes"/>
+    <entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.jsnippets"/>
+    <entry key="node-bundle-vendor" type="xstring" value="KNIME AG, Zurich, Switzerland"/>
+    <entry key="node-bundle-version" type="xstring" value="5.7.0.v202508211821"/>
+    <entry key="node-feature-name" type="xstring" value="KNIME Javasnippet"/>
+    <entry key="node-feature-symbolic-name" type="xstring" value="org.knime.features.javasnippet.feature.group"/>
+    <entry key="node-feature-vendor" type="xstring" value="KNIME AG, Zurich, Switzerland"/>
+    <entry key="node-feature-version" type="xstring" value="5.7.0.v202508211821"/>
+    <config key="factory_settings"/>
+    <entry key="name" type="xstring" value="Java Snippet"/>
+    <entry key="hasContent" type="xboolean" value="false"/>
+    <entry key="isInactive" type="xboolean" value="false"/>
+    <config key="ports">
+        <config key="port_1">
+            <entry key="index" type="xint" value="1"/>
+            <entry key="port_dir_location" type="xstring" isnull="true" value=""/>
+        </config>
+    </config>
+    <config key="filestores">
+        <entry key="file_store_location" type="xstring" isnull="true" value=""/>
+        <entry key="file_store_id" type="xstring" isnull="true" value=""/>
+    </config>
+</config>

@@ -1,70 +1,95 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IsiWebApp.Settings;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Xml;
+using System.Xml.Linq;
 
-[ApiController]
-[Route("knime/[controller]")]
-public class UploadController : ControllerBase
+namespace IsiWebApp.Controllers
 {
-    private readonly IConfiguration _config;
-
-    public UploadController(IConfiguration config)
+    [ApiController]
+    [Route("knime/[controller]")]
+    public class UploadController : ControllerBase
     {
-        _config = config;
-    }
+        private readonly KnimePathSettings _knimeSettings;
 
-    [HttpPost("UploadXml")]
-    public async Task<IActionResult> UploadXml(IFormFile file)
-    {
-        if (file == null || file.Length == 0)
-            return BadRequest("Ficheiro não enviado.");
-
-        // Caminho de upload do appsettings.json
-        var uploadPath = _config["UploadFolder:Path"];
-        if (string.IsNullOrEmpty(uploadPath))
-            return StatusCode(500, "Caminho de upload não configurado.");
-
-        Directory.CreateDirectory(uploadPath);
-
-        var filePath = Path.Combine(uploadPath, file.FileName);
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        public UploadController(IOptions<KnimePathSettings> knimeSettings)
         {
-            await file.CopyToAsync(stream);
+            _knimeSettings = knimeSettings.Value;
         }
 
-        // Caminhos do KNIME do appsettings.json
-        var knimeExe = _config["KnimePath:Exe"];
-        var workflowDir = _config["KnimePath:Workflow"];
-
-        if (string.IsNullOrEmpty(knimeExe) || string.IsNullOrEmpty(workflowDir))
-            return StatusCode(500, "Caminho do KNIME não configurado.");
-
-        // Monta os argumentos corretamente
-        var arguments = $"-nosplash -application org.knime.product.KNIME_BATCH_APPLICATION -workflowDir=\"{workflowDir}\" -reset";
-
-        var psi = new ProcessStartInfo
+        [HttpPost("UploadXml")]
+        public async Task<IActionResult> UploadXml(IFormFile file, [FromForm] int movieId)
         {
-            FileName = knimeExe,
-            Arguments = arguments,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
+            if (file == null || file.Length == 0)
+                return BadRequest("Ficheiro não enviado.");
 
-        using (var proc = Process.Start(psi))
-        {
-            // Captura output e error
-            string output = await proc.StandardOutput.ReadToEndAsync();
-            string error = await proc.StandardError.ReadToEndAsync();
-            proc.WaitForExit();
+            // Verifica se o ID do XML corresponde ao movieId recebido
+            bool idCorreto = await CompararIdNoXmlAsync(file, movieId.ToString());
+            if (!idCorreto)
+                return BadRequest("O campo <Id> do XML não corresponde ao Id do filme enviado.");
 
-            // Logging opcional
-            if (!string.IsNullOrEmpty(output))
-                Console.WriteLine("KNIME output: " + output);
-            if (!string.IsNullOrEmpty(error))
-                Console.WriteLine("KNIME error: " + error);
+            // Continua apenas se o ID for válido
+            var solutionRoot = GetSolutionRoot("ISI-WebApp");
+            if (solutionRoot == null)
+                return StatusCode(500, "Pasta 'ISI-WebApp' não encontrada na hierarquia de diretórios.");
+
+            var knimeFolder = Path.Combine(solutionRoot, "Knime");
+            var uploadPath = Path.Combine(knimeFolder, "Upload");
+
+            Directory.CreateDirectory(uploadPath);
+
+            var originalFilePath = Path.Combine(uploadPath, file.FileName);
+            using (var stream = new FileStream(originalFilePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(new
+            {
+                message = "Ficheiro recebido e guardado com sucesso.",
+                fileName = file.FileName,
+                path = originalFilePath
+            });
         }
 
-        return Ok(new { message = "Upload recebido, processamento iniciado.", file = file.FileName });
+
+        /// <summary>
+        /// Obtém a pasta raiz da solution, cortando tudo depois de "solutionFolderName" (ex: "ISI-WebApp").
+        /// </summary>
+        private static string? GetSolutionRoot(string solutionFolderName)
+        {
+            var currentDir = AppContext.BaseDirectory;
+            var index = currentDir.IndexOf(solutionFolderName, StringComparison.OrdinalIgnoreCase);
+
+            if (index == -1)
+                return null;
+
+            // Pega tudo até à pasta da solution
+            return currentDir.Substring(0, index + solutionFolderName.Length);
+        }
+
+        public static async Task<bool> CompararIdNoXmlAsync(IFormFile xmlFile, string id)
+        {
+            if (xmlFile == null || xmlFile.Length == 0 || string.IsNullOrWhiteSpace(id))
+                return false;
+
+            try
+            {
+                using var stream = xmlFile.OpenReadStream();
+                var xmlDoc = await Task.Run(() => XDocument.Load(stream));
+
+                // Busca qualquer elemento <Id> com valor igual ao ID informado
+                var idMatch = xmlDoc.Descendants("Id")
+                                    .Any(x => string.Equals(x.Value.Trim(), id, StringComparison.OrdinalIgnoreCase));
+
+                return idMatch;
+            }
+            catch
+            {
+                // Pode logar o erro se quiser
+                return false;
+            }
+        }
     }
 }
