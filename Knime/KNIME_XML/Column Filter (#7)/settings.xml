@@ -9,19 +9,20 @@
         <config key="column-filter">
             <entry key="filter-type" type="xstring" value="STANDARD"/>
             <config key="included_names">
-                <entry key="array-size" type="xint" value="4"/>
-                <entry key="0" type="xstring" value="movieId"/>
-                <entry key="1" type="xstring" value="movieLength"/>
-                <entry key="2" type="xstring" value="startSub"/>
-                <entry key="3" type="xstring" value="endSub"/>
+                <entry key="array-size" type="xint" value="3"/>
+                <entry key="0" type="xstring" value="movieLength"/>
+                <entry key="1" type="xstring" value="startSub"/>
+                <entry key="2" type="xstring" value="endSub"/>
             </config>
             <config key="excluded_names">
-                <entry key="array-size" type="xint" value="5"/>
+                <entry key="array-size" type="xint" value="7"/>
                 <entry key="0" type="xstring" value="XML"/>
-                <entry key="1" type="xstring" value="title"/>
-                <entry key="2" type="xstring" value="year"/>
-                <entry key="3" type="xstring" value="language"/>
-                <entry key="4" type="xstring" value="subtitles"/>
+                <entry key="1" type="xstring" value="ValidationResult"/>
+                <entry key="2" type="xstring" value="movieId"/>
+                <entry key="3" type="xstring" value="title"/>
+                <entry key="4" type="xstring" value="year"/>
+                <entry key="5" type="xstring" value="language"/>
+                <entry key="6" type="xstring" value="subtitles"/>
             </config>
             <entry key="enforce_option" type="xstring" value="EnforceInclusion"/>
             <config key="name_pattern">

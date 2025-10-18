@@ -6,41 +6,36 @@
         <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
     </config>
     <config key="model">
-        <config key="column-filter">
-            <entry key="filter-type" type="xstring" value="STANDARD"/>
-            <config key="included_names">
-                <entry key="array-size" type="xint" value="2"/>
-                <entry key="0" type="xstring" value="movieId"/>
-                <entry key="1" type="xstring" value="subtitles"/>
-            </config>
-            <config key="excluded_names">
-                <entry key="array-size" type="xint" value="8"/>
-                <entry key="0" type="xstring" value="XML"/>
-                <entry key="1" type="xstring" value="ValidationResult"/>
-                <entry key="2" type="xstring" value="title"/>
-                <entry key="3" type="xstring" value="year"/>
-                <entry key="4" type="xstring" value="language"/>
-                <entry key="5" type="xstring" value="movieLength"/>
-                <entry key="6" type="xstring" value="startSub"/>
-                <entry key="7" type="xstring" value="endSub"/>
-            </config>
-            <entry key="enforce_option" type="xstring" value="EnforceInclusion"/>
-            <config key="name_pattern">
+        <config key="filter">
+            <entry key="mode" type="xstring" value="MANUAL"/>
+            <config key="patternFilter">
                 <entry key="pattern" type="xstring" value=""/>
-                <entry key="caseSensitive" type="xboolean" value="true"/>
-                <entry key="excludeMatching" type="xboolean" value="false"/>
-                <entry key="type" type="xstring" value="Wildcard"/>
+                <entry key="isCaseSensitive" type="xboolean" value="false"/>
+                <entry key="isInverted" type="xboolean" value="false"/>
             </config>
-            <config key="datatype">
-                <config key="typelist"/>
+            <config key="manualFilter">
+                <config key="manuallySelected">
+                    <entry key="array-size" type="xint" value="1"/>
+                    <entry key="0" type="xstring" value="date-input"/>
+                </config>
+                <config key="manuallyDeselected">
+                    <entry key="array-size" type="xint" value="1"/>
+                    <entry key="0" type="xstring" value="knime.workspace"/>
+                </config>
+                <entry key="includeUnknownColumns" type="xboolean" value="false"/>
+            </config>
+            <config key="typeFilter">
+                <config key="selectedTypes">
+                    <entry key="array-size" type="xint" value="0"/>
+                </config>
             </config>
         </config>
     </config>
     <config key="variables"/>
     <entry key="customDescription" type="xstring" isnull="true" value=""/>
     <entry key="state" type="xstring" value="IDLE"/>
-    <entry key="factory" type="xstring" value="org.knime.base.node.preproc.filter.column.DataColumnSpecFilterNodeFactory"/>
-    <entry key="node-name" type="xstring" value="Column Filter"/>
+    <entry key="factory" type="xstring" value="org.knime.base.node.flowvariable.appendvariabletotable4.AppendVariableToTable4NodeFactory"/>
+    <entry key="node-name" type="xstring" value="Variable to Table Column"/>
     <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
     <entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.base"/>
     <entry key="node-bundle-vendor" type="xstring" value="KNIME AG, Zurich, Switzerland"/>
@@ -50,7 +45,7 @@
     <entry key="node-feature-vendor" type="xstring" isnull="true" value=""/>
     <entry key="node-feature-version" type="xstring" value="0.0.0"/>
     <config key="factory_settings"/>
-    <entry key="name" type="xstring" value="Column Filter"/>
+    <entry key="name" type="xstring" value="Variable to Table Column"/>
     <entry key="hasContent" type="xboolean" value="false"/>
     <entry key="isInactive" type="xboolean" value="false"/>
     <config key="ports">

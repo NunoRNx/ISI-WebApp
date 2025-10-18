@@ -7,10 +7,11 @@
     </config>
     <config key="model">
         <config key="ColumnOrder">
-            <entry key="array-size" type="xint" value="3"/>
-            <entry key="0" type="xstring" value="XML"/>
+            <entry key="array-size" type="xint" value="4"/>
+            <entry key="0" type="xstring" value="date-input"/>
             <entry key="1" type="xstring" value="ValidationResult"/>
-            <entry key="2" type="xstring" value="&lt;any unknown new column&gt;"/>
+            <entry key="2" type="xstring" value="XML"/>
+            <entry key="3" type="xstring" value="&lt;any unknown new column&gt;"/>
         </config>
     </config>
     <config key="variables"/>

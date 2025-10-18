@@ -10,8 +10,8 @@
             <entry key="filter-type" type="xstring" value="STANDARD"/>
             <config key="included_names">
                 <entry key="array-size" type="xint" value="2"/>
-                <entry key="0" type="xstring" value="title"/>
-                <entry key="1" type="xstring" value="language"/>
+                <entry key="0" type="xstring" value="movieId"/>
+                <entry key="1" type="xstring" value="subtitles"/>
             </config>
             <config key="excluded_names">
                 <entry key="array-size" type="xint" value="0"/>

@@ -21,7 +21,7 @@
         <entry key="useAttributeForColName0" type="xboolean" value="false"/>
         <entry key="attributeForColName0" type="xstring" value="name"/>
         <entry key="xpath0" type="xstring" value="/movie/Id"/>
-        <entry key="returnType0" type="xstring" value="Integer"/>
+        <entry key="returnType0" type="xstring" value="String"/>
         <entry key="missingCellOnEmptySet0" type="xboolean" value="true"/>
         <entry key="missingCellOnEmptyString0" type="xboolean" value="false"/>
         <entry key="valueOnInfinityOrNaN0" type="xboolean" value="false"/>
@@ -45,7 +45,7 @@
         <entry key="useAttributeForColName2" type="xboolean" value="false"/>
         <entry key="attributeForColName2" type="xstring" value="name"/>
         <entry key="xpath2" type="xstring" value="/movie/year"/>
-        <entry key="returnType2" type="xstring" value="Integer"/>
+        <entry key="returnType2" type="xstring" value="String"/>
         <entry key="missingCellOnEmptySet2" type="xboolean" value="true"/>
         <entry key="missingCellOnEmptyString2" type="xboolean" value="false"/>
         <entry key="valueOnInfinityOrNaN2" type="xboolean" value="false"/>

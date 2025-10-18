@@ -1,0 +1,7 @@
+"2025-10-18T17:56:01.467", "Erro de validação DTD: The content of element type ""movie"" must match ""(Id,title,year,language,movieLength,subtitles)"".", "<?xml version=""1.0"" encoding=""UTF-8""?>
+<movie>
+    <Id>1186350</Id>
+    <title>Marco</title>
+    <language>ml</language>
+    <movieLength>02:25:00</movieLength>
+</movie>"

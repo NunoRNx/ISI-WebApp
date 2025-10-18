@@ -10,7 +10,7 @@
             <entry key="filter-type" type="xstring" value="STANDARD"/>
             <config key="included_names">
                 <entry key="array-size" type="xint" value="2"/>
-                <entry key="0" type="xstring" value="movieID"/>
+                <entry key="0" type="xstring" value="movieId"/>
                 <entry key="1" type="xstring" value="year"/>
             </config>
             <config key="excluded_names">
@@ -25,11 +25,11 @@
             </config>
             <config key="datatype">
                 <config key="typelist">
-                    <entry key="org.knime.core.data.IntValue" type="xboolean" value="false"/>
+                    <entry key="org.knime.core.data.StringValue" type="xboolean" value="false"/>
                     <entry key="org.knime.core.data.BooleanValue" type="xboolean" value="false"/>
+                    <entry key="org.knime.core.data.IntValue" type="xboolean" value="false"/>
                     <entry key="org.knime.core.data.DoubleValue" type="xboolean" value="false"/>
                     <entry key="org.knime.core.data.LongValue" type="xboolean" value="false"/>
-                    <entry key="org.knime.core.data.StringValue" type="xboolean" value="false"/>
                     <entry key="org.knime.core.data.date.DateAndTimeValue" type="xboolean" value="false"/>
                 </config>
             </config>
@@ -53,7 +53,7 @@
             <entry key="SettingsModelID" type="xstring" value="SMID_boolean"/>
             <entry key="EnabledStatus" type="xboolean" value="true"/>
         </config>
-        <entry key="Abort execution on evaluation errors" type="xboolean" value="true"/>
+        <entry key="Abort execution on evaluation errors" type="xboolean" value="false"/>
         <config key="Insert missing values as null_Internals">
             <entry key="SettingsModelID" type="xstring" value="SMID_boolean"/>
             <entry key="EnabledStatus" type="xboolean" value="true"/>

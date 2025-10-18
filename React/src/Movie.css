@@ -24,6 +24,7 @@
   position: sticky;
   width: 100%;
   max-width: 1200px;
+  margin-top: 10% !important;
   padding: 0 20px;
   display: grid;
   grid-template-columns: 320px 1fr; /* poster left + content right */
@@ -74,6 +75,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+  z-index: 1000 !important;
 }
 
 .btn-primary, .btn-secondary {

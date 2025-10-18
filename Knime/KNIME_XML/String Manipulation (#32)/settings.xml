@@ -6,7 +6,7 @@
         <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
     </config>
     <config key="model">
-        <entry key="expression" type="xstring" value="upperCase($language$)"/>
+        <entry key="expression" type="xstring" value="upperCase(regexReplace($language$, &quot;[0-9]&quot;, &quot;&quot;))"/>
         <entry key="replaced_column" type="xstring" value="language"/>
         <entry key="append_column" type="xboolean" value="true"/>
         <entry key="test_compilation_on_dialog_close" type="xboolean" value="true"/>

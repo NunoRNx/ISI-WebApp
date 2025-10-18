@@ -68,10 +68,6 @@
     </config>
     <entry key="customDescription" type="xstring" isnull="true" value=""/>
     <entry key="state" type="xstring" value="IDLE"/>
-    <config key="nodecontainer_message">
-        <entry key="type" type="xstring" value="WARNING"/>
-        <entry key="message" type="xstring" value="Input table must only contain String, Int, or Doubles"/>
-    </config>
     <entry key="factory" type="xstring" value="org.knime.base.node.io.filehandling.csv.writer.CSVWriter2NodeFactory"/>
     <entry key="node-name" type="xstring" value="CSV Writer"/>
     <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>

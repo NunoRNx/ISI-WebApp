@@ -7,14 +7,15 @@
     </config>
     <config key="model">
         <config key="ColumnOrder">
-            <entry key="array-size" type="xint" value="7"/>
-            <entry key="0" type="xstring" value="movieId"/>
-            <entry key="1" type="xstring" value="movieLength"/>
+            <entry key="array-size" type="xint" value="8"/>
+            <entry key="0" type="xstring" value="date-input"/>
+            <entry key="1" type="xstring" value="movieId"/>
             <entry key="2" type="xstring" value="subtitles"/>
-            <entry key="3" type="xstring" value="startSub"/>
-            <entry key="4" type="xstring" value="endSub"/>
-            <entry key="5" type="xstring" value="prediction"/>
-            <entry key="6" type="xstring" value="&lt;any unknown new column&gt;"/>
+            <entry key="3" type="xstring" value="movieLength"/>
+            <entry key="4" type="xstring" value="startSub"/>
+            <entry key="5" type="xstring" value="endSub"/>
+            <entry key="6" type="xstring" value="prediction"/>
+            <entry key="7" type="xstring" value="&lt;any unknown new column&gt;"/>
         </config>
     </config>
     <config key="variables"/>

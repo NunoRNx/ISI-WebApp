@@ -6,25 +6,21 @@
         <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
     </config>
     <config key="model">
-        <config key="column-filter">
+        <config key="group_cols">
             <entry key="filter-type" type="xstring" value="STANDARD"/>
             <config key="included_names">
-                <entry key="array-size" type="xint" value="2"/>
+                <entry key="array-size" type="xint" value="3"/>
                 <entry key="0" type="xstring" value="movieId"/>
-                <entry key="1" type="xstring" value="subtitles"/>
+                <entry key="1" type="xstring" value="startSub"/>
+                <entry key="2" type="xstring" value="endSub"/>
             </config>
             <config key="excluded_names">
-                <entry key="array-size" type="xint" value="8"/>
-                <entry key="0" type="xstring" value="XML"/>
-                <entry key="1" type="xstring" value="ValidationResult"/>
-                <entry key="2" type="xstring" value="title"/>
-                <entry key="3" type="xstring" value="year"/>
-                <entry key="4" type="xstring" value="language"/>
-                <entry key="5" type="xstring" value="movieLength"/>
-                <entry key="6" type="xstring" value="startSub"/>
-                <entry key="7" type="xstring" value="endSub"/>
+                <entry key="array-size" type="xint" value="3"/>
+                <entry key="0" type="xstring" value="subtitles"/>
+                <entry key="1" type="xstring" value="movieLength"/>
+                <entry key="2" type="xstring" value="prediction"/>
             </config>
-            <entry key="enforce_option" type="xstring" value="EnforceInclusion"/>
+            <entry key="enforce_option" type="xstring" value="EnforceExclusion"/>
             <config key="name_pattern">
                 <entry key="pattern" type="xstring" value=""/>
                 <entry key="caseSensitive" type="xboolean" value="true"/>
@@ -35,12 +31,23 @@
                 <config key="typelist"/>
             </config>
         </config>
+        <entry key="remove_duplicates" type="xboolean" value="true"/>
+        <entry key="add_row_duplicate_flag" type="xboolean" value="true"/>
+        <entry key="unique_flag_column_name" type="xstring" value="Duplicate Status"/>
+        <entry key="add_row_id_flag" type="xboolean" value="false"/>
+        <entry key="row_id_flag_column_name" type="xstring" value="Duplicate Chosen"/>
+        <entry key="doNotAllowEmptyBlankOrPaddedColumnName_Internals" type="xboolean" value="true"/>
+        <entry key="row_selection" type="xstring" value="FIRST"/>
+        <entry key="reference_col" type="xstring" isnull="true" value=""/>
+        <entry key="in_memory" type="xboolean" value="false"/>
+        <entry key="retain_order" type="xboolean" value="true"/>
+        <entry key="update_domains" type="xboolean" value="false"/>
     </config>
     <config key="variables"/>
     <entry key="customDescription" type="xstring" isnull="true" value=""/>
     <entry key="state" type="xstring" value="IDLE"/>
-    <entry key="factory" type="xstring" value="org.knime.base.node.preproc.filter.column.DataColumnSpecFilterNodeFactory"/>
-    <entry key="node-name" type="xstring" value="Column Filter"/>
+    <entry key="factory" type="xstring" value="org.knime.base.node.preproc.duplicates.DuplicateRowFilterNodeFactory"/>
+    <entry key="node-name" type="xstring" value="Duplicate Row Filter"/>
     <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
     <entry key="node-bundle-symbolic-name" type="xstring" value="org.knime.base"/>
     <entry key="node-bundle-vendor" type="xstring" value="KNIME AG, Zurich, Switzerland"/>
@@ -50,7 +57,7 @@
     <entry key="node-feature-vendor" type="xstring" isnull="true" value=""/>
     <entry key="node-feature-version" type="xstring" value="0.0.0"/>
     <config key="factory_settings"/>
-    <entry key="name" type="xstring" value="Column Filter"/>
+    <entry key="name" type="xstring" value="Duplicate Row Filter"/>
     <entry key="hasContent" type="xboolean" value="false"/>
     <entry key="isInactive" type="xboolean" value="false"/>
     <config key="ports">

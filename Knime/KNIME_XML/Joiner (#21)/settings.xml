@@ -19,7 +19,7 @@
                 </config>
             </config>
         </config>
-        <entry key="dataCellComparisonMode" type="xstring" value="STRICT"/>
+        <entry key="dataCellComparisonMode" type="xstring" value="STRING"/>
         <entry key="includeMatchesInOutput" type="xboolean" value="true"/>
         <entry key="includeLeftUnmatchedInOutput" type="xboolean" value="false"/>
         <entry key="includeRightUnmatchedInOutput" type="xboolean" value="false"/>
